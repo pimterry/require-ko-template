@@ -1,0 +1,23 @@
+{
+  "name": "require-ko-template",
+  "description": "A RequireJS plugin for simple external Knockout templates",
+  "version": "0.1.0",
+  "homepage": "http://github.com/pimterry/require-ko-template",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.6",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-jasmine": "~0.4.1",
+    "grunt-template-jasmine-requirejs": "~0.1.1",
+    "grunt-open": "~0.2.0",
+    "grunt-contrib-connect": "~0.2.0"
+  }
+}
