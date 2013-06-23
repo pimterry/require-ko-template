@@ -1,4 +1,4 @@
-define(["js/lib/jquery"], function ($) {
+define(["lib/jquery"], function ($) {
     return {
         load: function load(name, req, onLoad, config) {
             var filename = "templates/" + name + ".html";

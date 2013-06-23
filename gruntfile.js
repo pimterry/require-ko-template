@@ -15,15 +15,22 @@ module.exports = function (grunt) {
         jasmine: {
             src: 'src/**/*.js',
             options: {
-                host: "http://localhost:<%= connect.port %>/",
+                host: "http://localhost:8000/",
                 specs: 'test/*-test.js',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
                   requireConfig: {
+                      baseUrl: "js",
                       paths: {
-                          "test": "../test"
+                          "test": "../test",
+                          "templates": "../test/templates",
+                          "text": "lib/text"
                       },
-                      deps: ['js/template.js']
+                      shim: {
+                          "lib/jquery": {
+                              exports: "$"
+                          }
+                      }
                   }
                 }
             }
@@ -50,7 +57,7 @@ module.exports = function (grunt) {
         jshint: {
             js: {
                 options: {
-                    jshintrc: 'js/.jshintrc',
+                    jshintrc: 'js/.jshintrc'
                 },
                 src: ['js/**/*.js', '!js/lib/*.js']
             },
@@ -58,19 +65,19 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: 'test/.jshintrc'
                 },
-                src: ['test/**/*.js', '!test/lib/*.js']
-            },
+                src: ['test/**/*.js', '!test/lib/*.js', 'test/**/*.html']
+            }
         },
         watch: {
             js: {
                 files: '<%= jshint.js.src %>',
-                tasks: ['jshint:js', 'jasmine:src:build']
+                tasks: ['jshint:js', 'connect:briefly', 'jasmine']
             },
             test: {
                 files: '<%= jshint.test.src %>',
-                tasks: ['jshint:test', 'jasmine:src:build']
-            },
-        },
+                tasks: ['jshint:test', 'connect:briefly', 'jasmine']
+            }
+        }
     });
 
     // These plugins provide necessary tasks.
@@ -81,20 +88,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-open');
 
-    grunt.registerTask('phantombrowser', function () {
-        var phantomjs = require('grunt-lib-phantomjs').init(grunt);
-
-        phantomjs.spawn({
-            options: {
-                webdriver: 8001
-            }
-        });
-        return {};
-    });
-
     // Default task.
     grunt.registerTask('default', ['test']);
-    grunt.registerTask('test', ['jshint', 'jasmine']);
+    grunt.registerTask('test', ['jshint', 'connect:briefly', 'jasmine']);
 
     // Test with a live server and an actual browser
     grunt.registerTask('browsertest', ['jasmine:src:build', 'connect', 'open:jasmine']);
