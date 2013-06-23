@@ -1,12 +1,14 @@
-define(["lib/jquery"], function ($) {
+define(function () {
     return {
-        load: function load(name, req, onLoad, config) {
+        load: function load(name, req, onLoad) {
             var filename = "templates/" + name + ".html";
         
             require(["text!" + filename], function (templateContent) {
-                $("body").append("<script id='" + name + "' type='text/html'>" +
-                                  templateContent +
-                                  "</script>");
+                var node = document.createElement("script");
+                node.id = name;
+                node.type = "text/html";
+                node.innerHTML = templateContent;
+                document.body.appendChild(node);
                 onLoad();
             });
         }
